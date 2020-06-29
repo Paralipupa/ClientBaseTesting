@@ -1,0 +1,141 @@
+﻿<Window x:Class="WpfApp1.View.PricelistView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        Title="Прайслисты" Height="450" Width="786.732" >
+
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="AliceBlue" Height="60">
+            <DockPanel>
+                <Menu DockPanel.Dock="Top">
+                    <MenuItem Header="Открыть">
+                        <MenuItem Header="Выход"/>
+                    </MenuItem>
+                    <MenuItem Header="Правка">
+                        <MenuItem Header="Создать"/>
+                        <MenuItem Header="Посмотреть"/>
+                        <MenuItem Header="Удалить"/>
+                    </MenuItem>
+                    <MenuItem Header="Вид"/>
+                    <MenuItem Header="Настройки"/>
+                    <MenuItem Header="Помощь">
+                        <MenuItem Header="О программе"/>
+                    </MenuItem>
+                </Menu>
+                <StackPanel DockPanel.Dock="Top" Height="30">
+                    <Button x:Name="butOpenDb" Click="Button_Click_OpenDB">Открыть</Button>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="Beige" Height="30">
+
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Left" LastChildFill="True">
+
+            <Grid Loaded="Grid_Loaded">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition Width="30"  />
+                </Grid.ColumnDefinitions>
+
+                <DataGrid  x:Name="dgPricelist"  Grid.Column="0" AutoGenerateColumns="False" SelectionChanged="dgPricelist_SelectionChanged" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Дата начала" Binding="{Binding DateBegin}" />
+                        <DataGridTextColumn Header="Дата окончания" Binding="{Binding DateEnd}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <GridSplitter Grid.Column="1" ShowsPreview="False" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="1,0,1,0" />
+                <GridSplitter Grid.Column="3" ShowsPreview="False" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="1,0,1,0" />
+
+                <Canvas Grid.Column="5">
+                    <Button Content="&quot;Спра&quot;"/>
+                </Canvas>
+
+                <DataGrid  x:Name="dgPriceProduct"  Grid.Column="2" AutoGenerateColumns="False" SelectionChanged="dgPriceProduct_SelectionChanged" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Grid Grid.Column="4">
+                    
+                    <!--<Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid  x:Name="dgCostSale"  Grid.Column="0" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="П/П" Binding="{Binding Order}" />
+                                <DataGridTextColumn Header="Сумма" Binding="{Binding Summa}" />
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid DockPanel.Dock="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid  x:Name="dgCostService"  Grid.Column="2" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="П/П" Binding="{Binding Order}" />
+                                <DataGridTextColumn Header="Сумма" Binding="{Binding Summa}" />
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>-->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="3"  HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                    <Canvas Grid.ColumnSpan="3" Grid.Row="0" Background="#dfffff">
+                        <DataGrid  x:Name="dgCostSale"  ColumnWidth="*" Grid.Column="0" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="П/П" Width="40" Binding="{Binding Cost.Order}" />
+                                <DataGridTextColumn Header="Сумма" Width="100" Binding="{Binding Cost.Summa}" />
+                                <DataGridTextColumn Header="Тип" Width="40" Binding="{Binding Cost.Type.Name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Canvas>
+                    <Canvas Grid.ColumnSpan="3" Grid.Row="2" Background="AntiqueWhite">
+                        <DataGrid  x:Name="dgCostService" Grid.Column="2" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="П/П" Width="40" Binding="{Binding Cost.Order}" />
+                                <DataGridTextColumn Header="Сумма" Width="100" Binding="{Binding Cost.Summa}" />
+                                <DataGridTextColumn Header="Тип" Width="40" Binding="{Binding Cost.Type.Name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Canvas>
+                </Grid>
+
+                
+            </Grid>
+
+        </DockPanel>
+
+
+
+    </DockPanel>
+
+</Window>
