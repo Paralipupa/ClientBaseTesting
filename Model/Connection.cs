@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 
-namespace WpfApp1.Control
+namespace ClientBaseTesting.Model
 {
     class Connection : IDisposable
     {

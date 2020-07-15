@@ -5,9 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using WpfApp1.View;
+using ClientBaseTesting.View;
 
-namespace WpfApp1
+namespace ClientBaseTesting
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{310F2377-9DF0-4EB2-9C51-9E2A211E481B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfApp1</RootNamespace>
-    <AssemblyName>WpfApp1</AssemblyName>
+    <RootNamespace>ClientBaseTesting</RootNamespace>
+    <AssemblyName>Wpf_ClientBaseTesting</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -62,18 +62,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Control\Connection.cs" />
-    <Compile Include="Control\TypeCost.cs" />
-    <Compile Include="Control\Cost.cs" />
-    <Compile Include="Control\PriceList.cs" />
-    <Compile Include="Control\PriceProduct.cs" />
-    <Compile Include="Control\Product.cs" />
-    <Compile Include="Control\TypeEdizm.cs" />
+    <Compile Include="Model\Connection.cs" />
+    <Compile Include="Model\Discount.cs" />
+    <Compile Include="Model\PricelistGroup.cs" />
+    <Compile Include="Model\TypeCost.cs" />
+    <Compile Include="Model\Cost.cs" />
+    <Compile Include="Model\PriceList.cs" />
+    <Compile Include="Model\PricelistNomenclature.cs" />
+    <Compile Include="Model\Nomenclature.cs" />
+    <Compile Include="Model\TypeDiscount.cs" />
+    <Compile Include="Model\TypeEdizm.cs" />
     <Compile Include="Templates\SQLTemplates.cs" />
     <Compile Include="View\PricelistView.xaml.cs">
       <DependentUpon>PricelistView.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Resource\Dictionary1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -81,7 +92,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

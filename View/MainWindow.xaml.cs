@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.View;
+using ClientBaseTesting.View;
 
 
-namespace WpfApp1
+namespace ClientBaseTesting
 {
     public partial class MainWindow : Window
     {

@@ -4,40 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using WpfApp1.Templates;
+using ClientBaseTesting.Templates;
 using System.Configuration;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
-namespace WpfApp1.Control
+namespace ClientBaseTesting.Model
 {
-    class PriceList
+    class PricelistCollection { }
+
+    class Pricelist
     {
         public int Code { get; set; }
         public string Name { get; set; }
         public string DateBegin { get; set; }
         public string DateEnd { get; set; }
+        public ObservableCollection<PricelistNomenclature> Product;
+        public ObservableCollection<PricelistGroup> Group;
 
-        public PriceList(int code)
+        public Pricelist() { }
+
+        public Pricelist(int code)
         {
             Code = code;
         }
 
-        public PriceList(int code, string name, string d1, string d2)
+        public Pricelist(int code, string name, string d1, string d2) : this(code)
         {
-            this.Code = code;
-            this.Name = name;
+            Name = name;
             try
             {
-                this.DateBegin = d1;
-                this.DateEnd = d2;
+                DateBegin = d1;
+                DateEnd = d2;
             }
             catch
             {
-                this.DateBegin = null;
-                this.DateEnd = null;
+                DateBegin = null;
+                DateEnd = null;
             }
         }
 
-        public static List<PriceList> Load(string str)
+        public ObservableCollection<Pricelist> Load(bool isactive = false)
         {
 
             string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -47,7 +54,7 @@ namespace WpfApp1.Control
 
                 conn.Open();
 
-                string sql = string.Format(str);
+                string sql = string.Format(SQLTemplates.SELECT_COMMON_WHERE_ORDER, "Прайслист", isactive ? "Активный" : "True", "`Дата начала` DESC");
 
                 MySqlCommand command = new MySqlCommand();
 
@@ -58,7 +65,7 @@ namespace WpfApp1.Control
                 {
                     if (reader.HasRows)
                     {
-                        List<PriceList> data = new List<PriceList>();
+                        ObservableCollection<Pricelist> data = new ObservableCollection<Pricelist>();
 
                         while (reader.Read())
                         {
@@ -67,15 +74,19 @@ namespace WpfApp1.Control
                             string d1 = reader.IsDBNull(reader.GetOrdinal("Дата начала")) ? null : reader.GetString(reader.GetOrdinal("Дата начала"));
                             string d2 = reader.IsDBNull(reader.GetOrdinal("Дата окончания")) ? null : reader.GetString(reader.GetOrdinal("Дата окончания"));
 
-                            data.Add(new PriceList(code, name, d1, d2));
+                            data.Add(new Pricelist(code, name, d1, d2));
                         }
+
                         return data;
                     }
                 }
             }
 
-            return null;            
+            return null;
 
         }
+
+
     }
+
 }
