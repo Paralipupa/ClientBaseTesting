@@ -64,10 +64,14 @@
     </ApplicationDefinition>
     <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\Discount.cs" />
+    <Compile Include="Model\GroupNomenclature.cs" />
+    <Compile Include="Model\Pricelist.cs" />
     <Compile Include="Model\PricelistGroup.cs" />
+    <Compile Include="Model\RegisterChange.cs" />
+    <Compile Include="Model\ITable.cs" />
+    <Compile Include="Model\Table.cs" />
     <Compile Include="Model\TypeCost.cs" />
     <Compile Include="Model\Cost.cs" />
-    <Compile Include="Model\PriceList.cs" />
     <Compile Include="Model\PricelistNomenclature.cs" />
     <Compile Include="Model\Nomenclature.cs" />
     <Compile Include="Model\TypeDiscount.cs" />

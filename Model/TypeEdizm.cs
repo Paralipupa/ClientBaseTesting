@@ -1,19 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClientBaseTesting.Model
 {
-    class TypeEdizm
+    class TypeEdizm : Table
     {
-        public TypeEdizm(int code, string name )
+        private int _code;
+        private string _name;
+        private Dictionary<string, string> _fields;
+
+        new public int Code => _code;
+        new public string Name { get { return _name; } set { _name = value; OnPropertyChanged("Name"); } }
+        new public Dictionary<string, string> Fields => _fields;
+
+        public new event PropertyChangedEventHandler PropertyChanged;
+
+        public TypeEdizm()
         {
-            this.Code = code;
-            this.Name = name;
+            _fields = new Dictionary<string, string>
+            {
+                { "Name","Наименование"}
+            };
+
         }
-        public int Code { get; set; }
-        public string Name { get; set; }
+        public TypeEdizm(int code) : this()
+        {
+            _code = code;
+        }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

@@ -1,24 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClientBaseTesting.Model
 {
-    class TypeCost
+    class TypeCost : Table
     {
-        public TypeCost(int code)
+        private int _code;
+        private string _name;
+        private Dictionary<string, string> _fields;
+
+        new public int Code => _code;
+        new public string Name { get { return _name; } set { _name = value; OnPropertyChanged("Name"); } }
+        new public Dictionary<string, string> Fields => _fields;
+
+        public new event PropertyChangedEventHandler PropertyChanged;
+
+        public TypeCost()
         {
-            Code = code;
+            _fields = new Dictionary<string, string>
+            {
+                { "Name","Наименование"}
+            };
+
+        }
+        public TypeCost(int code) : this()
+        {
+            _code = code;
         }
 
-        public TypeCost(int code, string name)
+        public void OnPropertyChanged(string propertyName)
         {
-            Code = code;
-            Name = name;
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        public int Code { get; set; }
-        public string Name { get; set; }
+
     }
 }

@@ -1,11 +1,17 @@
-﻿<Window x:Class="ClientBaseTesting.View.PricelistView"
+﻿<Window x:Name="winPricelist" x:Class="ClientBaseTesting.View.PricelistView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:ClientBaseTesting.Properties"
         xmlns:local="clr-namespace:ClientBaseTesting.View"
         mc:Ignorable="d"
-        Title="Прайслисты" Height="450" Width="791.232" >
+        Title="Прайслисты" 
+        Top="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistTop, Mode=TwoWay}"
+        Left="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistLeft, Mode=TwoWay}"
+        Height="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistHeight, Mode=TwoWay}"
+        Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistWidth, Mode=TwoWay}"
+        Closed="winPricelist_Closed" >
     <Window.Resources>
     </Window.Resources>
 
@@ -33,7 +39,16 @@
                 <!--Иконки команды-->
                 <StackPanel DockPanel.Dock="Top" Height="40" HorizontalAlignment="Center" Orientation="Horizontal" >
                     <Button x:Name="butOpenDb" Click="Button_Click_OpenDB">Открыть</Button>
-                    <Button x:Name="butButton2" Click="Button_Click_OpenDB">Открыть</Button>
+                    <Button x:Name="butButtonSave" Content="Сохранить" Click="butButtonSave_Click">
+                        <Button.Resources>
+                            <!--Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Source=}">                                            
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </-->
+                        </Button.Resources>
+                    </Button>
                     <Button x:Name="butButton3" Click="Button_Click_OpenDB">Открыть</Button>
                     <Button x:Name="butButton4" Click="Button_Click_OpenDB">Открыть</Button>
                 </StackPanel>
@@ -42,7 +57,7 @@
 
         <!--Нижняя панель Строка состояния-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="Beige" Height="30">
-
+            <Label Name="lblMessage"  HorizontalAlignment="Stretch"/>
         </StackPanel>
 
         <!--Основная часть панели -->
@@ -51,11 +66,11 @@
             <Grid Loaded="Grid_Loaded">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="{Binding Source={x:Static p:Settings.Default},  Path=winPricelistMainPart1, Mode=TwoWay}" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistMainPart2, Mode=TwoWay}" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistMainPart3, Mode=TwoWay}" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -65,32 +80,45 @@
 
                 <!--Команды-->
                 <StackPanel x:Name="stPanelButton" Grid.Column="0" Grid.RowSpan="3" Width="40">
-                    <Button x:Name="btnTest1"  Content="Тест Observ" Click="btnTest1_Click"/>
+                    <Button x:Name="btnTest1"  Content="Тест Observ"/>
                     <Button x:Name="btnTest2" />
                 </StackPanel>
-                
+
                 <!--Прайслист-->
-                <Grid Grid.Column="1" Grid.RowSpan="3" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                <Grid x:Name="grdPrice" Grid.Column="1" Grid.RowSpan="3" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition x:Name="grdRowDefinPrice" Height="1*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition x:Name="grdRowDefinGroup" Height="1*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0" >
-                        <Button x:Name="btnPriceDel" Content="{StaticResource DeleteIcon}" Height="20" Margin="0" VerticalAlignment="Top" Width="30" Click="btnPriceDel_Click"/>
-                        <CheckBox x:Name="chkSelectPriceActive" Content="Активные" DockPanel.Dock="Left" Click="chkSelectPriceActive_Click" IsChecked="True"/>
+                        <Button x:Name="btnPriceDel" Content="{StaticResource DeleteIcon}" Margin="0" Width="30" Click="btnPriceDel_Click"/>
+                        <CheckBox x:Name="chkSelectPriceActive" Content="Активные" DockPanel.Dock="Left" Click="chkSelectPriceActive_Click" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCheckPriceActive,Mode=TwoWay}"/>
+                        <CheckBox x:Name="chkSelectGroup" Content="Группы" Click="chkSelectGroup_Click" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCheckGroupActive,Mode=TwoWay}" />
                     </DockPanel>
-                    <DataGrid  x:Name="dgPricelist" Grid.Row="1" SelectionChanged="dgPricelist_SelectionChanged" >
+
+                    <!--Прайслист-->
+                    <DataGrid  x:Name="dgPricelist" Grid.Row="1" SelectionChanged="DgPricelist_SelectionChanged" ColumnWidth="*" UnloadingRow="dgPricelist_UnloadingRow" GotFocus="dgPricelist_GotFocus" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Наименование" Width="150" Binding="{Binding Name}" />
-                            <DataGridTextColumn Header="Дата начала" Width="90" Binding="{Binding DateBegin}" />
-                            <DataGridTextColumn Header="Дата окончания" Width="90" Binding="{Binding DateEnd}" />
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="{Binding Source={x:Static p:Settings.Default},  Path=winPricelistPriceNameWidth, Mode=TwoWay}"/>
+                            <DataGridTextColumn Header="Дата начала"  Binding="{Binding DateBegin}" Width="{Binding Source={x:Static p:Settings.Default},  Path=winPricelistPriceDate1Width, Mode=TwoWay}"/>
+                            <DataGridTextColumn Header="Дата окончания" Binding="{Binding DateEnd}" Width="{Binding Source={x:Static p:Settings.Default},  Path=winPricelistPriceDate2Width, Mode=TwoWay}"/>
+                        </DataGrid.Columns>                        
+                    </DataGrid>
+
+                    <!--Группы-->
+                    <DataGrid  x:Name="dgPricelistGroup"  Grid.Column="0" Grid.Row="3" SelectionChanged="DgPricelistGroup_SelectionChanged" ColumnWidth="*">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Группа" Binding="{Binding Name}"  Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistPriceGroupWidth,Mode=TwoWay}"  />
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <!--Резделитель по горизонтали -->
+                    <GridSplitter Grid.Row="2" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+
                 </Grid>
-                
+
                 <!--Резделитель первый-->
                 <GridSplitter Grid.Column="2" Grid.RowSpan="3" ShowsPreview="False" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="1,0,1,0" />
 
@@ -104,65 +132,59 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Name="grdRowDefinCostService" Height="1*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <!--панель выбора -->
                     <StackPanel Grid.Row="0"  Orientation="Horizontal">
-                        <Button x:Name="btnCostDel" Content="{StaticResource DeleteIcon}" Height="20" Margin="0" VerticalAlignment="Top" Width="30"/>
-                        <CheckBox x:Name="chkSelectTypeCost" Content="Облуживание" Click="chkSelectTypeCost_Click"/>
+                        <Button x:Name="btnCostDel" Content="{StaticResource DeleteIcon}" Height="20" Margin="0" VerticalAlignment="Top" Width="30" Click="btnCostDel_Click_1"/>
+                        <CheckBox x:Name="chkSelectTypeCost" Content="Облуживание" Click="chkSelectTypeCost_Click" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCheckServiceActive,Mode=TwoWay}"/>
                     </StackPanel>
 
                     <!--Цена продажи-->
-                    <DataGrid  x:Name="dgCostSale"  Grid.Row="1" AutoGenerateColumns="False">
+                    <DataGrid  x:Name="dgCostSale"  Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="DgCostSale_SelectionChanged" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Копия" Width="40" Binding="{Binding Order}" />
-                            <DataGridTextColumn Header="Сумма продажи" Width="120" Binding="{Binding Summa}" />
+                            <DataGridTextColumn Header="Копия" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCostSaleCopyWidth, Mode=TwoWay}" Binding="{Binding Order}" />
+                            <DataGridTextColumn Header="Сумма продажи" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistSaleCostSummaWidth, Mode=TwoWay}" Binding="{Binding Summa}" />
+                            <DataGridTextColumn Header="Скидка" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCostSaleDiscWidth, Mode=TwoWay}" Binding="{Binding CodeDiscount}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    
+
                     <!--Резделитель по горизонтали -->
                     <GridSplitter Grid.Row="2" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
                     <!--Цена обслуживания-->
-                    <DataGrid  x:Name="dgCostService" Grid.Row="3" Visibility="Visible" AutoGenerateColumns="False">
+                    <DataGrid  x:Name="dgCostService" Grid.Row="3" Visibility="Visible" AutoGenerateColumns="False" SelectionChanged="DgCostService_SelectionChanged" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Копия" Width="40" Binding="{Binding Order}" />
-                            <DataGridTextColumn Header="Сумма обслуживания" Width="120" Binding="{Binding Summa}" />
+                            <DataGridTextColumn Header="Копия" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCostServCopyWidth, Mode=TwoWay}" Binding="{Binding Order}" />
+                            <DataGridTextColumn Header="Сумма продажи" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCostServSummaWidth, Mode=TwoWay}" Binding="{Binding Summa}" />
+                            <DataGridTextColumn Header="Скидка" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistCostServDiscWidth, Mode=TwoWay}" Binding="{Binding CodeDiscount}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
                 </Grid>
-                
-                <!--Группы - Номенклатура-->
+
+                <!--Номенклатура-->
                 <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>                        
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20"/>
-                        <RowDefinition x:Name="grdRowDefinGroup" Height="1*"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition x:Name="grdRowDefinProd" Height="1*"/>
                     </Grid.RowDefinitions>
                     <!--панель выбора -->
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <Button x:Name="btnNomenclatureDel" Content="{StaticResource DeleteIcon}" Height="20" Margin="0" VerticalAlignment="Top" Width="30"/>
-                        <CheckBox x:Name="chkSelectGroup" Content="Группы" Click="chkSelectGroup_Click"/>
+                        <Button x:Name="btnNomenclatureDel" Content="{StaticResource DeleteIcon}" Margin="0" Width="30" Click="btnNomenclatureDel_Click" Height="20" VerticalAlignment="Top"/>
                     </StackPanel>
-                                        
-                    <!--Группы-->
-                    <DataGrid  x:Name="dgPricelistGroup"  Grid.Column="0" Grid.Row="1" SelectionChanged="dgPricelistGroup_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Группа" Width="Auto"  Binding="{Binding Name}"  />
-                        </DataGrid.Columns>                        
-                    </DataGrid>
-
-                    <!--Резделитель по горизонтали -->
-                    <GridSplitter Grid.Row="2" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-
                     <!--Номенклатура-->
-                    <DataGrid  x:Name="dgPricelistNomenclature"  Grid.Column="0" Grid.Row="3" SelectionChanged="dgPricelistNomenclature_SelectionChanged" >
+                    <DataGrid  x:Name="dgPricelistNomenclature"  Grid.Column="0" Grid.Row="1" SelectionChanged="dgPricelistNomenclature_SelectionChanged" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номенклатура" Binding="{Binding Nomenclature.Name}" />
+                            <DataGridTextColumn Header="Номенклатура" Binding="{Binding Nomenclature.Name}" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistPriceNomencWidth,Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--Номенклатура при выборе группы -->
+                    <DataGrid  x:Name="dgGroupNomenclature"  Grid.Column="0" Grid.Row="1" SelectionChanged="dgPricelistNomenclature_SelectionChanged" ColumnWidth="*" Visibility="Hidden">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номенклатура" Binding="{Binding Nomenclature.Name}" Width="{Binding Source={x:Static p:Settings.Default}, Path=winPricelistPriceNomencWidth,Mode=TwoWay}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

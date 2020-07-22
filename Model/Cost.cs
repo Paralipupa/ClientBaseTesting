@@ -1,57 +1,95 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using ClientBaseTesting.Templates;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace ClientBaseTesting.Model
 {
-    class Cost
+    class Cost : Table
     {
+        private readonly string _tablename = "Цена";
+
+        private Dictionary<string, string> _fields;
         private readonly string _name = null;
         private int _code;
+
         private int _order;
         private int _count;
         private double _summa;
+        private int _codeproduct;
+        private int _codediscount;
+        private int _codetypecost;
 
-        private PricelistNomenclature _pricenomenclature;
-        private TypeCost _typecost;
-        private Discount _disc;
+       new public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Name => _name;
-        public int Code { get { return _code; } set { _code = value; } }
-        public double Summa { get { return _summa; } set { _summa = value; } }
-        public int Order { get { return _order; } set { _order = value; } }
-        public int Count { get { return _count; } set { _count = value; } }
-
-        public PricelistNomenclature PriceNomen => _pricenomenclature;
-        public TypeCost TypeCost => _typecost;
-        public Discount Discount => _disc;
-
-
-        public Cost(int code)
+        public Cost() 
         {
-            Code = code;
+            _fields = new Dictionary<string, string>
+            {
+                { "Code","Код"},
+                { "Name","Наименование"},
+                { "Summa","Сумма"},
+                { "Count","Количество"},
+                { "Order","Копия"},
+                { "CodeProduct","КодПрайслистНоменклатура"},
+                { "CodeDiscount","КодТипЦены"},
+                { "CodeTypeCost","КодСкидка"},
+            };
         }
 
-        public Cost(int code, double summa, TypeCost typecost) : this(code)
+        public Cost(int code, int codeproduct, int codetypecost, double summa = 0) : this()
         {
-            Summa = summa;
-            _typecost = typecost;
+            _code = code;
+            _codeproduct = codeproduct;
+            _codetypecost = codetypecost;
+            _summa = summa;
         }
 
-        public Cost(int code, double summa, TypeCost typecost = null, PricelistNomenclature prnom = null, Discount disc = null, int count = 1, int order = 0) : this(code, summa, typecost)
+        public Cost(int code, int codeproduct, int codetypecost, double summa = 0, int count = 1, int order = 0, int disc = 0) : this(code, codeproduct, codetypecost, summa)
         {
-            Count = count;
+            _count = count;
             _order = order;
-            _pricenomenclature = prnom;
-            _typecost = typecost;
-            _disc = disc;
-
+            _codediscount = disc;
         }
 
-        public static ObservableCollection<Cost> Load(int codepricenomecl, int type)
+        new public string TableName => _tablename;
+        new public int Code => _code;
+        new public string Name => _name;
+        new public Dictionary<string, string> Fields { get => _fields; set => _fields = value; }
+
+        public double Summa
+        {
+            get { return _summa; }
+            set { _summa = value; OnPropertyChanged("Summa"); }
+        }
+
+        public int Order
+        {
+            get { return _order; }
+            set { _order = value; OnPropertyChanged("Order"); }
+        }
+
+        public int Count
+        {
+            get { return _count; }
+            set { _count = value; OnPropertyChanged("Count"); }
+        }
+
+        public int CodeDiscount
+        {
+            get { return _codediscount; }
+            set { _codediscount = value; OnPropertyChanged("CodeDiscount"); }
+        }
+
+        public int CodeTypeCost
+        {
+            get { return _codetypecost; }
+            set { _codetypecost= value; OnPropertyChanged("CodeTypeCost"); }
+        }
+         
+        public ObservableCollection<Cost> Load(int codepricenomecl, int type, PropertyChangedEventHandler propertyChange = null)
         {
 
             string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -78,14 +116,17 @@ namespace ClientBaseTesting.Model
                             int code = reader.GetInt32(reader.GetOrdinal("Код"));
                             string name = reader.IsDBNull(reader.GetOrdinal("Наименование")) ? null : reader.GetString(reader.GetOrdinal("Наименование"));
                             int count = reader.IsDBNull(reader.GetOrdinal("Количество")) ? 0 : reader.GetInt32(reader.GetOrdinal("Количество"));
-                            int copy = reader.IsDBNull(reader.GetOrdinal("Копия")) ? 0 : reader.GetInt32(reader.GetOrdinal("Копия"));
+                            int order = reader.IsDBNull(reader.GetOrdinal("Копия")) ? 0 : reader.GetInt32(reader.GetOrdinal("Копия"));
                             double summa = reader.IsDBNull(reader.GetOrdinal("Сумма")) ? 0 : reader.GetDouble(reader.GetOrdinal("Сумма"));
 
-                            int codetc = reader.IsDBNull(reader.GetOrdinal("КодТипЦены")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодТипЦены"));
+                            int codetype = reader.IsDBNull(reader.GetOrdinal("КодТипЦены")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодТипЦены"));
                             int codedisc = reader.IsDBNull(reader.GetOrdinal("КодСкидка")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодСкидка"));
-                            int codepn = reader.IsDBNull(reader.GetOrdinal("КодПрайслистНоменклатура")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодПрайслистНоменклатура"));
+                            int codeproduct = reader.IsDBNull(reader.GetOrdinal("КодПрайслистНоменклатура")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодПрайслистНоменклатура"));
 
-                            data.Add(new Cost(code, summa, new TypeCost(codetc), new PricelistNomenclature(codepn), new Discount(codedisc), count, copy));
+                            Cost cost = new Cost(code, codeproduct, codetype, summa, count, order, codedisc);
+                            cost.PropertyChanged += propertyChange;
+                            data.Add(cost);
+
                         }
 
                         return data;
@@ -94,7 +135,13 @@ namespace ClientBaseTesting.Model
             }
 
             return null;
-
         }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

@@ -22,5 +22,257 @@ namespace ClientBaseTesting.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double winPricelistLeft {
+            get {
+                return ((double)(this["winPricelistLeft"]));
+            }
+            set {
+                this["winPricelistLeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double winPricelistTop {
+            get {
+                return ((double)(this["winPricelistTop"]));
+            }
+            set {
+                this["winPricelistTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public double winPricelistWidth {
+            get {
+                return ((double)(this["winPricelistWidth"]));
+            }
+            set {
+                this["winPricelistWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public double winPricelistHeight {
+            get {
+                return ((double)(this["winPricelistHeight"]));
+            }
+            set {
+                this["winPricelistHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        public string winPricelistPriceNameWidth {
+            get {
+                return ((string)(this["winPricelistPriceNameWidth"]));
+            }
+            set {
+                this["winPricelistPriceNameWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public string winPricelistPriceDate1Width {
+            get {
+                return ((string)(this["winPricelistPriceDate1Width"]));
+            }
+            set {
+                this["winPricelistPriceDate1Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public string winPricelistPriceDate2Width {
+            get {
+                return ((string)(this["winPricelistPriceDate2Width"]));
+            }
+            set {
+                this["winPricelistPriceDate2Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1*")]
+        public string winPricelistMainPart1 {
+            get {
+                return ((string)(this["winPricelistMainPart1"]));
+            }
+            set {
+                this["winPricelistMainPart1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.4*")]
+        public string winPricelistMainPart2 {
+            get {
+                return ((string)(this["winPricelistMainPart2"]));
+            }
+            set {
+                this["winPricelistMainPart2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("*")]
+        public string winPricelistMainPart3 {
+            get {
+                return ((string)(this["winPricelistMainPart3"]));
+            }
+            set {
+                this["winPricelistMainPart3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string winPricelistCostSaleDiscWidth {
+            get {
+                return ((string)(this["winPricelistCostSaleDiscWidth"]));
+            }
+            set {
+                this["winPricelistCostSaleDiscWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string winPricelistCostSaleCopyWidth {
+            get {
+                return ((string)(this["winPricelistCostSaleCopyWidth"]));
+            }
+            set {
+                this["winPricelistCostSaleCopyWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string winPricelistCostSaleSummaWidth {
+            get {
+                return ((string)(this["winPricelistCostSaleSummaWidth"]));
+            }
+            set {
+                this["winPricelistCostSaleSummaWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string winPricelistCostServDiscWidth {
+            get {
+                return ((string)(this["winPricelistCostServDiscWidth"]));
+            }
+            set {
+                this["winPricelistCostServDiscWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string winPricelistCostServCopyWidth {
+            get {
+                return ((string)(this["winPricelistCostServCopyWidth"]));
+            }
+            set {
+                this["winPricelistCostServCopyWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public string winPricelistCostServSummaWidth {
+            get {
+                return ((string)(this["winPricelistCostServSummaWidth"]));
+            }
+            set {
+                this["winPricelistCostServSummaWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public string winPricelistCheckPriceActive {
+            get {
+                return ((string)(this["winPricelistCheckPriceActive"]));
+            }
+            set {
+                this["winPricelistCheckPriceActive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string winPricelistCheckGroupActive {
+            get {
+                return ((string)(this["winPricelistCheckGroupActive"]));
+            }
+            set {
+                this["winPricelistCheckGroupActive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string winPricelistCheckServiceActive {
+            get {
+                return ((string)(this["winPricelistCheckServiceActive"]));
+            }
+            set {
+                this["winPricelistCheckServiceActive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public string winPricelistPriceNomencWidth {
+            get {
+                return ((string)(this["winPricelistPriceNomencWidth"]));
+            }
+            set {
+                this["winPricelistPriceNomencWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string winPricelistPriceGroupWidth {
+            get {
+                return ((string)(this["winPricelistPriceGroupWidth"]));
+            }
+            set {
+                this["winPricelistPriceGroupWidth"] = value;
+            }
+        }
     }
 }

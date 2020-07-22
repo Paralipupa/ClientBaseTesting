@@ -1,22 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClientBaseTesting.Model
 {
-    class TypeDiscount
+    class TypeDiscount : Table
     {
         private int _code;
-        private readonly string _name=null;
+        private string _name;
+        private Dictionary<string, string> _fields;
 
-        public int Code => _code;
-        public string Name => _name;
+        new public int Code => _code;
+        new public string Name { get { return _name; } set { _name = value; OnPropertyChanged("Name"); } }
+        new public Dictionary<string, string> Fields => _fields;
 
-        public TypeDiscount(int code) 
+        public new event PropertyChangedEventHandler PropertyChanged;
+
+        public TypeDiscount()
+        {
+            _fields = new Dictionary<string, string>
+            {
+                { "Name","Наименование"}
+            };
+
+        }
+        public TypeDiscount(int code) : this()
         {
             _code = code;
         }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

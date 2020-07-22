@@ -13,7 +13,8 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style.Setters>        
     </Style>
-
+    
+ 
     <Style TargetType="Button">
         <Style.Setters>
             <Setter Property="Button.Background" Value="Gray" />

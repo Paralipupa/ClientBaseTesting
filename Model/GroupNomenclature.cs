@@ -10,14 +10,15 @@ using System.Collections.Generic;
 
 namespace ClientBaseTesting.Model
 {
-    class PricelistNomenclature : Table
+    class GroupNomenclature : Table
     {
-        private string _tablename= "прайслист-номенклатура";
+        private string _tablename = "группапрайслистноменклатура";
         private int _code;
         private string _name;
         private Dictionary<string, string> _fields;
         private int _codepricelist;
-        private int _codenomenclature;
+        private int _codeproduct;
+        private int _codegroup;
 
         new public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,43 +26,41 @@ namespace ClientBaseTesting.Model
         new public int Code => _code;
         new public string Name { get { return _name; } set { _name = value; } }
         new public Dictionary<string, string> Fields => _fields;
-        public int CodePricelist { get { return _codepricelist; } set { _codepricelist = value; OnPropertyChanged("CodePricelist"); } }
-        public int CodeNomenclature { get { return _codenomenclature; } set { _codenomenclature = value; OnPropertyChanged("CodeNomenclature"); } }
+        public int CodePricelist { get { return _codepricelist; } set { _codepricelist = value;  } }
+        public int CodeProduct{ get { return _codeproduct; } set { _codeproduct= value; OnPropertyChanged("CodePrroduct"); } }
+        public int CodeGroup { get { return _codegroup; } set { _codegroup = value; OnPropertyChanged("CodeGroup"); } }
 
-
-        public Nomenclature Nomenclature { get; set;  }
+        public Nomenclature Nomenclature { get; }
         public ObservableCollection<Cost> CostSale { get; set; }
         public ObservableCollection<Cost> CostService { get; set; }
 
-        public PricelistNomenclature()
+        public GroupNomenclature()
         {
             _fields = new Dictionary<string, string>
             {
                { "Code","Код"},
                { "Name","Наименование"},
-               { "CodePricelist","КодПрайсдист"},
-               { "CodeNomenclature","КодНоменклатура"}
+               { "CodeProduct","КодПрайсдист"},
+               { "CodeGroup","КодГруппаноменклатура"}
             };
 
         }
 
-        public PricelistNomenclature(int code)
+        public GroupNomenclature(int code)
         {
             _code = code;
         }
 
-        public PricelistNomenclature(int code, int codepricelist) : this(code)
+        public GroupNomenclature(int code, int codepricelist, int codegroup, int codeproduct, Nomenclature nom) : this(code)
         {
+            Nomenclature = nom;
             _codepricelist = codepricelist;
+            _codegroup = codegroup;
+            _codeproduct = codeproduct;
         }
 
-        public PricelistNomenclature(int code, int codepricelist, int codenomenclature, Nomenclature nomenclature) : this(code, codepricelist)
-        {
-            _codenomenclature = codenomenclature;
-            Nomenclature = nomenclature;
-        }
 
-        public ObservableCollection<PricelistNomenclature> Load(string str, PropertyChangedEventHandler propertyChange = null)
+        public ObservableCollection<GroupNomenclature> Load(string str, PropertyChangedEventHandler propertyChange = null)
         {
             string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -79,21 +78,23 @@ namespace ClientBaseTesting.Model
                 {
                     if (reader.HasRows)
                     {
-                        ObservableCollection<PricelistNomenclature> data = new ObservableCollection<PricelistNomenclature>();
+                        ObservableCollection<GroupNomenclature> data = new ObservableCollection<GroupNomenclature>();
 
                         while (reader.Read())
                         {
                             int code = reader.GetInt32(reader.GetOrdinal("Код"));
                             int codepricelist = reader.IsDBNull(reader.GetOrdinal("КодПрайслист")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодПрайслист"));
+                            int codegroup = reader.IsDBNull(reader.GetOrdinal("КодГруппаНоменклатура")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодГруппаНоменклатура"));
+                            int codeproduct = reader.IsDBNull(reader.GetOrdinal("КодПрайслистНоменклатура")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодПрайслистНоменклатура"));
 
                             int codenom = reader.IsDBNull(reader.GetOrdinal("КодНоменклатура")) ? 0 : reader.GetInt32(reader.GetOrdinal("КодНоменклатура"));
                             string namenomen = reader.IsDBNull(reader.GetOrdinal("Наименование")) ? null : reader.GetString(reader.GetOrdinal("Наименование")).Trim();
 
                             Nomenclature nomenclature = new Nomenclature(codenom, namenomen);
-                            PricelistNomenclature plnm = new PricelistNomenclature(code, codepricelist, codenom, nomenclature);
-                            plnm.PropertyChanged += propertyChange;
+                            GroupNomenclature grnm = new GroupNomenclature(code, codepricelist, codegroup, codeproduct, nomenclature);
+                            grnm.PropertyChanged += propertyChange;
 
-                            data.Add(plnm);
+                            data.Add(grnm);
                         }
                         return data;
                     }
@@ -104,13 +105,7 @@ namespace ClientBaseTesting.Model
 
         }
 
-        public ObservableCollection<PricelistNomenclature> Load(int codepricelist, PropertyChangedEventHandler propertyChange = null)
-        {
-            string sql = string.Format(SQLTemplates.SELECT_PRICELIST_NOMENCLATURE, codepricelist);
-            return Load(sql, propertyChange);
-        }
-
-        public ObservableCollection<PricelistNomenclature> Load(int codepricelist, int codegroup, PropertyChangedEventHandler propertyChange = null)
+        public ObservableCollection<GroupNomenclature> Load(int codepricelist, int codegroup, PropertyChangedEventHandler propertyChange = null)
         {
             string sql = string.Format(SQLTemplates.SELECT_GRUPPA_NOMENCLATURE, codepricelist, codegroup);
             return Load(sql, propertyChange);
